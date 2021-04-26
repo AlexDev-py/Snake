@@ -38,13 +38,12 @@ class Pixel:
 
 class Field:
     def __init__(self):
-        self.apples: List[Tuple[int, int]] = []  # Координаты яблок
         self._pixels: List[Pixel] = []
 
     def draw_grid(self, screen: pg.Surface):
         """ Отображаем края поля """
 
-        if FIELD_IMG:
+        if FIELD_IMG and const.PIXELS_COUNT == 35:
             screen.blit(FIELD_IMG, (0, 0))
         else:
             if len(self._pixels) == 0:
@@ -55,15 +54,15 @@ class Field:
     def _generate_pixels(self):
         """ Создаём клетки, из которых состоит край поля """
 
-        for i in range(-2, 37):
+        for i in range(-2, const.PIXELS_COUNT + 2):
             for j in range(-2, 0):
                 self._pixels.append(Pixel(i, j, "Gray"))
-        for i in range(-2, 37):
-            for j in range(35, 37):
+        for i in range(-2, const.PIXELS_COUNT + 2):
+            for j in range(const.PIXELS_COUNT, const.PIXELS_COUNT + 2):
                 self._pixels.append(Pixel(i, j, "Gray"))
-        for i in range(0, 35):
+        for i in range(0, const.PIXELS_COUNT):
             for j in range(-2, 0):
                 self._pixels.append(Pixel(j, i, "Gray"))
-        for i in range(0, 35):
-            for j in range(35, 37):
+        for i in range(0, const.PIXELS_COUNT):
+            for j in range(const.PIXELS_COUNT, const.PIXELS_COUNT + 2):
                 self._pixels.append(Pixel(j, i, "Gray"))
