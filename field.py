@@ -1,3 +1,4 @@
+import random
 from typing import List, Tuple, Union
 
 import pygame as pg
@@ -13,14 +14,24 @@ except FileNotFoundError:
     FIELD_IMG = None
 
 
+def random_cords():
+    return (
+        random.randrange(0, const.PIXELS_COUNT),
+        random.randrange(0, const.PIXELS_COUNT),
+    )
+
+
 class Pixel:
-    def __init__(self, row: int, col: int, color: Union[pg.Color, str]):
+    def __init__(
+        self, row: int, col: int, color: Union[pg.Color, str], direction: str = None
+    ):
         self.cords: Tuple[int, int] = (row, col)
         cords = self.get_cords()
         self.rect = pg.Rect(
             (cords[0], cords[1], const.PIXEL_SIZE - 1, const.PIXEL_SIZE - 1)
         )
         self.color = color if isinstance(color, pg.Color) else pg.Color(color)
+        self.direction = direction
 
     def get_cords(self) -> Tuple[int, int]:
         """ Получаем координаты клетки на экране """
@@ -38,6 +49,7 @@ class Pixel:
 
 class Field:
     def __init__(self):
+        self.apples: List[Pixel] = []  # Координаты яблок
         self._pixels: List[Pixel] = []
 
     def draw_grid(self, screen: pg.Surface):

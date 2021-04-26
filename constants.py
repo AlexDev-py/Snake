@@ -19,5 +19,15 @@ DOWN = "down"
 KEY_MAP = {pg.K_LEFT: LEFT, pg.K_RIGHT: RIGHT, pg.K_UP: UP, pg.K_DOWN: DOWN}
 
 BACKGROUND = pg.Color("Black")
+FONT_COLOR = pg.Color("White")
 SNAKE_BODY_COLOR = pg.Color("Green")
 SNAKE_HEAD_COLOR = pg.Color("DarkGreen")
+APPLE_COLOR = pg.Color("Red")
+
+LOSE_TEXT = pg.font.SysFont(name="Arial", size=40).render(
+    "Вы проиграли", True, FONT_COLOR
+)
+PAUSE_TEXT = pg.font.SysFont(name="Arial", size=40).render("Пауза", True, FONT_COLOR)
+TAP_TO_PLAY_TEXT = pg.font.SysFont(name="Calibri", size=20).render(
+    "нажмите ПРОБЕЛ чтобы играть", True, FONT_COLOR
+)
