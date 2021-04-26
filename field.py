@@ -1,32 +1,38 @@
+from typing import List, Tuple, Union
+
 import pygame as pg
 
-from typing import List, Tuple
-
-import gamerules as gr
+import constants as const
 
 pg.init()
 
 try:
-    FIELD_IMG = pg.image.load(r"img\field.png")
-    FIELD_IMG = pg.transform.scale(FIELD_IMG, gr.DISPLAY_SIZE)
+    FIELD_IMG = pg.image.load(const.FIELD_IMG)
+    FIELD_IMG = pg.transform.scale(FIELD_IMG, const.DISPLAY_SIZE)
 except FileNotFoundError:
     FIELD_IMG = None
 
 
 class Pixel:
-    def __init__(self, row: int, col: int, color: str):
+    def __init__(self, row: int, col: int, color: Union[pg.Color, str]):
         self.cords: Tuple[int, int] = (row, col)
         cords = self.get_cords()
-        self.rect = pg.Rect((cords[0], cords[1], gr.PIXEL_SIZE - 1, gr.PIXEL_SIZE - 1))
-        self.color = pg.Color(color)
+        self.rect = pg.Rect(
+            (cords[0], cords[1], const.PIXEL_SIZE - 1, const.PIXEL_SIZE - 1)
+        )
+        self.color = color if isinstance(color, pg.Color) else pg.Color(color)
 
     def get_cords(self) -> Tuple[int, int]:
+        """ Получаем координаты клетки на экране """
+
         return (
-            gr.PIXEL_SIZE * 2 + gr.PIXEL_SIZE * self.cords[0] + 1,
-            gr.PIXEL_SIZE * 2 + gr.PIXEL_SIZE * self.cords[1] + 1,
+            const.PIXEL_SIZE * 2 + const.PIXEL_SIZE * self.cords[0] + 1,
+            const.PIXEL_SIZE * 2 + const.PIXEL_SIZE * self.cords[1] + 1,
         )
 
     def draw(self, screen: pg.Surface):
+        """ Отображаем клетку """
+
         pg.draw.rect(surface=screen, color=self.color, rect=self.rect)
 
 
@@ -36,15 +42,19 @@ class Field:
         self._pixels: List[Pixel] = []
 
     def draw_grid(self, screen: pg.Surface):
+        """ Отображаем края поля """
+
         if FIELD_IMG:
             screen.blit(FIELD_IMG, (0, 0))
         else:
             if len(self._pixels) == 0:
-                self.generate_pixels()
+                self._generate_pixels()
             for pixel in self._pixels:
                 pixel.draw(screen)
 
-    def generate_pixels(self):
+    def _generate_pixels(self):
+        """ Создаём клетки, из которых состоит край поля """
+
         for i in range(-2, 37):
             for j in range(-2, 0):
                 self._pixels.append(Pixel(i, j, "Gray"))
