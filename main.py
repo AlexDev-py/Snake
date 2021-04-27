@@ -1,7 +1,6 @@
 from typing import List
 
 import pygame as pg
-import pygame.display
 
 import constants as const
 from field import Field, Pixel, random_cords
@@ -46,7 +45,9 @@ class Game:
         head = self.snake[0].cords
 
         # Столкновение с краем
-        if not (0 <= head[0] <= 34) or not (0 <= head[1] <= 34):
+        if not (0 <= head[0] <= const.PIXELS_COUNT - 1) or not (
+            0 <= head[1] <= const.PIXELS_COUNT - 1
+        ):
             self.lose = True
 
         # Ест яблоко
@@ -151,7 +152,7 @@ class Game:
 
             self.check_collision()
             self.draw()
-            pygame.display.flip()
+            pg.display.flip()
 
             for i, event in enumerate(self._events_buffer):
                 self.handle_event(event, _event_index=i)

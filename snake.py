@@ -27,11 +27,12 @@ def other_direction(
 
 class Snake(list):
     def __init__(self):
+        center = const.PIXELS_COUNT // 2
         super(Snake, self).__init__(
             [
-                Pixel(17, 17, const.SNAKE_HEAD_COLOR, LEFT),
-                Pixel(18, 17, const.SNAKE_BODY_COLOR, LEFT),
-                Pixel(19, 17, const.SNAKE_BODY_COLOR, LEFT),
+                Pixel(center - 1, center, const.SNAKE_HEAD_COLOR, LEFT),
+                Pixel(center, center, const.SNAKE_BODY_COLOR, LEFT),
+                Pixel(center + 1, center, const.SNAKE_BODY_COLOR, LEFT),
             ]
         )  # Начальное положение змейки
         self.direction = LEFT  # Направление движения
